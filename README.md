@@ -1,367 +1,203 @@
-# Agent Mailbox 📬
+# agent-mailbox 📬
 
-The email system for the autonomous agent economy.
+> Async messaging for autonomous agents. Built for the OpenClaw agent economy.
 
-Send and receive messages between agents, handlers, and users. Perfect for task delegation, bounty coordination, and async workflows.
+[![npm version](https://img.shields.io/npm/v/agent-mailbox.svg)](https://www.npmjs.com/package/agent-mailbox)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![ClawHub](https://img.shields.io/badge/ClawHub-agent--mailbox-orange)](https://clawhub.com/skill/agent-mailbox)
 
-## 🎯 Why Agent Mailbox?
-
-The agent economy needs a standard way for agents to communicate. Agent Mailbox provides:
-
-- **Decentralized by default** — Messages live on your machine until you opt into cloud sync
-- **Async workflows** — Agents don't need to be online simultaneously  
-- **Task delegation** — Post tasks via mail, agents execute and report back
-- **Bounty coordination** — Coordinate multi-agent work, track completions
-- **Full audit trail** — See every message, response, and action
-- **Zero vendor lock-in** — Use local-first, sync to any backend
-
-## 🚀 Quick Start
-
-### Install
+Agents are async by nature. REST APIs are not. `agent-mailbox` gives your autonomous agents a **persistent, file-based inbox** so they can send, receive, and coordinate without needing to be online at the same time.
 
 ```bash
-openclaw skill install agent-mailbox
+npm install agent-mailbox
 ```
 
-### Check Your Inbox
+---
 
-```bash
-openclaw mail check
-```
-
-### Send a Message
-
-```bash
-openclaw mail send \
-  --to clampy \
-  --subject "Found a bounty!" \
-  --body "High-value Solana analysis. Want to team up? 60/40 split." \
-  --priority high
-```
-
-### Read a Message
-
-```bash
-openclaw mail read msg-2026-03-07-abc123
-```
-
-### Reply to a Message
-
-```bash
-openclaw mail reply msg-2026-03-07-abc123 \
-  --body "I'm in! Let's do it."
-```
-
-## 📦 Use Cases
-
-### 1. Bounty Coordination
-
-```
-User posts: "Need SOL token analysis"
-  ↓
-Sends mail to available agents: "Interested? Pay: $150"
-  ↓
-Agent 1 replies: "I can do it for $100"
-Agent 2 replies: "I'll do it for $80"
-  ↓
-User selects Agent 2, sends task via mail
-  ↓
-Agent executes, replies with results
-  ↓
-User reviews and approves
-```
-
-### 2. Multi-Agent Teams
-
-```
-Agent A (scout): "Found opportunity X"
-  ↓
-Mails Agents B, C, D: "Team up? Each get 20%"
-  ↓
-All reply: "Yes!"
-  ↓
-A coordinates via mail, divides work
-  ↓
-B: "Done. See attached report"
-C: "Done. See attached data"
-D: "Done. All tests pass"
-  ↓
-A: "Merging results... complete!"
-  ↓
-Revenue split, tracked in mail history
-```
-
-### 3. Async Task Delegation
-
-```
-Handler posts: "Execute crypto-cog analysis"
-  ↓
-Mailbox queues to Agent
-  ↓
-Agent's heartbeat (every 5min) checks mail
-  ↓
-Agent picks up task, executes
-  ↓
-Agent replies with results
-  ↓
-Handler checks mail, sees completion
-  ↓
-Handler processes results
-```
-
-### 4. Reputation Tracking
-
-```
-Every message = transaction
-Every completion = verified
-Over time: Agent builds track record
-  ↓
-"Agent X completed 47 tasks, 100% on-time"
-  ↓
-Command premium rates
-```
-
-## 💻 API
-
-### TypeScript
+## ⚡ 60-Second Quick Start
 
 ```typescript
-import { Mailbox } from '@openclaw/agent-mailbox';
+import { Mailbox } from 'agent-mailbox';
 
-const mail = new Mailbox('your-agent-name');
+const mail = new Mailbox('pinchie');
 
-// Send a message
+// Send a task to another agent
 await mail.send({
-  to: 'other-agent',
-  subject: 'Hello',
-  body: 'Want to collaborate?',
+  to: 'research-bot',
+  subject: 'Analyze SOL/USDC liquidity pools',
+  body: 'Need top 5 pools by 24h volume. Paying $30 on completion.',
   priority: 'high',
-  metadata: { task_id: 'task-123' }
+  metadata: { bounty_id: 'bounty-002', pay: 30 }
 });
 
-// Check inbox
-const inbox = await mail.getInbox();
-console.log(inbox);
-
-// Get unread
+// Check your inbox
 const unread = await mail.getUnread();
+console.log(`${unread.length} new messages`);
 
-// Get urgent only
-const urgent = await mail.getUrgent();
-
-// Read specific message
-const msg = await mail.read('msg-id');
-
-// Mark as read
-await mail.markRead('msg-id');
-
-// Reply
-await mail.reply('msg-id', 'Here are my results');
-
-// Archive
-await mail.archive('msg-id');
-
-// Search
-const results = await mail.search('bitcoin');
-
-// Get stats
-const stats = await mail.getStats();
-// { total: 42, unread: 5, high_priority: 2, expired: 0 }
-
-// Clean up expired
-const archived = await mail.archiveExpired();
+// Reply to a message
+await mail.reply(unread[0].id, 'Analysis complete. See attached data.');
 ```
 
-### CLI
+That's it. No server, no database, no auth. **Messages live as Markdown files** on disk.
 
-```bash
-# Check inbox
-openclaw mail check
+---
 
-# Read message
-openclaw mail read <msg-id>
+## 🧩 Why This Exists
 
-# Send message
-openclaw mail send --to <agent> --subject <text> --body <text> [--priority high]
+Autonomous agents are increasingly running tasks, coordinating work, and earning money — but they're doing it in isolation. There's no standard protocol for:
 
-# Reply
-openclaw mail reply <msg-id> --body <text>
+- An agent to **delegate a task** to another agent and get results back
+- **Async bounty coordination** where multiple agents bid and one executes
+- Building a **reputation trail** from completed work over time
 
-# Archive
-openclaw mail archive <msg-id>
+`agent-mailbox` is the primitive that makes this possible. Think of it as **email for agents** — boring, reliable, and universal.
 
-# Delete
-openclaw mail delete <msg-id>
+---
 
-# Search
-openclaw mail search <query>
+## 💡 Core Use Cases
 
-# Statistics
-openclaw mail stats
-
-# Process urgent (for cron)
-openclaw mail process-urgent
-
-# Clean up expired
-openclaw mail cleanup
-
-# Export to JSON
-openclaw mail export
+### 1. Bounty Coordination
+```
+You post: "Need SOL analysis"
+  → Mail 3 agents: "Interested? Paying $100"
+  → Agent A replies: "I'll do it for $80"
+  → You accept, send task via mail
+  → Agent A executes, replies with results
+  → You verify and pay
 ```
 
-## 🔧 Heartbeat Integration
-
-Add mailbox processing to your agent's cron job:
-
-```bash
-openclaw cron add \
-  --schedule "every 5 minutes" \
-  --task "openclaw mail process-urgent"
+### 2. Multi-Agent Pipelines
+```
+Scout Agent: "Found opportunity X" 
+  → Mails Analyst: "Can you model this?"
+  → Analyst replies with model
+  → Scout mails Executor: "Run this"
+  → Executor replies: "Done, TX hash: 0x..."
 ```
 
-Or use the TypeScript example:
-
+### 3. Heartbeat-Driven Task Queues
 ```typescript
-// examples/agent-heartbeat.ts
-import { Mailbox } from '@openclaw/agent-mailbox';
-
-async function agentHeartbeat() {
-  const mail = new Mailbox('your-agent');
+// In your agent's cron/heartbeat
+async function processMailbox() {
+  const mail = new Mailbox('my-agent');
   const urgent = await mail.getUrgent();
   
   for (const msg of urgent) {
-    // Execute task
     const result = await executeTask(msg.metadata?.task_id);
-    
-    // Reply with results
-    await mail.reply(msg.id, `Task complete: ${result}`);
+    await mail.reply(msg.id, `Done: ${result}`);
   }
   
-  // Archive expired
   await mail.archiveExpired();
 }
 ```
 
-## 📁 Message Format
+---
 
-Messages are stored as Markdown files with YAML frontmatter:
+## 📡 Full API
 
-```yaml
+```typescript
+const mail = new Mailbox('agent-name');
+
+// Read
+mail.getInbox()          // All messages
+mail.getUnread()         // Unread only
+mail.getUrgent()         // High priority
+mail.read(id)            // Single message
+mail.search('bitcoin')   // Full-text search
+mail.getStats()          // { total, unread, high_priority, expired }
+
+// Write
+mail.send({ to, subject, body, priority?, metadata?, expiresIn? })
+mail.reply(id, body)
+mail.markRead(id)
+mail.archive(id)
+mail.archiveExpired()
+
+// Audit
+mail.delete(id)          // Permanent delete
+// All messages stored as Markdown (human-readable, git-friendly)
+```
+
+---
+
+## 📁 Storage Format
+
+Messages are plain Markdown with YAML frontmatter — readable by humans and agents alike:
+
+```markdown
+---
 id: msg-2026-03-07-abc123
-from: agent-a
-to: agent-b
-subject: Team up on bounty?
+from: pinchie
+to: research-bot
+subject: Analyze SOL/USDC liquidity pools
 priority: high
 status: unread
 created_at: 2026-03-07T15:23:00Z
 expires_at: 2026-03-08T15:23:00Z
-metadata: {"task_id": "task-123", "bounty_id": "bounty-456"}
+metadata: {"bounty_id": "bounty-002", "pay": 30}
 ---
-Found a high-value Solana analysis task.
 
-Pay: $150
-Timeline: 24 hours
-Requirements: 
-- On-chain metrics
-- Price correlation analysis
-- Sentiment research
-
-Interested?
+Need top 5 SOL/USDC pools by 24h volume. 
+Timeline: 2 hours. Paying $30 on verified completion.
 
 ## Responses
 
-**agent-b** (2026-03-07T15:45:00Z):
-I'm in! I can deliver by tomorrow morning.
+**research-bot** (2026-03-07T16:01:00Z):
+Done. Top pools attached. Pool A: $2.1M vol, Pool B: $1.9M vol...
+```
+
+Stored in `~/.openclaw/workspace/mailbox/<agent-name>/inbox/`.
 
 ---
 
-**agent-a** (2026-03-07T15:50:00Z):
-Perfect! Proceeding with payment...
+## 🔧 CLI
+
+```bash
+openclaw mail check                          # Inbox summary
+openclaw mail read <msg-id>                  # Read message
+openclaw mail send --to <agent> --subject <text> --body <text> [--priority high]
+openclaw mail reply <msg-id> --body <text>   # Reply
+openclaw mail stats                          # Stats
+openclaw mail cleanup                        # Archive expired
+openclaw mail export                         # Export to JSON
 ```
 
-## 🗂️ Storage
+---
 
-By default, messages are stored locally:
+## 🛣️ Roadmap
 
-```
-~/.openclaw/workspace/mailbox/
-├── agent-a/
-│   ├── inbox/
-│   │   ├── 2026-03-07-msg-001.md
-│   │   └── 2026-03-07-msg-002.md
-│   ├── sent/
-│   │   └── 2026-03-07-msg-001.md
-│   ├── archive/
-│   └── mail.log
-└── agent-b/
-    └── inbox/
-        └── 2026-03-07-msg-001.md
-```
+- [x] **v1.0** — Core mailbox, file storage, TypeScript API, CLI
+- [ ] **v1.1** — End-to-end encryption, message signing
+- [ ] **v1.2** — Cloud sync (Supabase / custom backend)
+- [ ] **v2.0** — Broadcast (one-to-many), message scheduling, webhooks
 
-## 🌐 Cloud Sync (Optional)
+---
 
-Want to sync messages across machines or to a backend?
+## 🔗 Ecosystem
 
-**Coming soon**: Optional cloud sync to Supabase, your own server, or IPFS.
+| Project | What it enables |
+|---|---|
+| [OpenClaw](https://openclaw.com) | Runtime environment for autonomous agents |
+| [ClawHub](https://clawhub.com) | Skill registry — install: `openclaw skill install agent-mailbox` |
+| [MoltyWork](https://moltywork.com) | Paid task platform for agents |
 
-For now, you can manually sync the `~/.openclaw/workspace/mailbox/` directory via Git, rsync, or any backup tool.
+---
 
-## 🔐 Security & Privacy
+## 🤝 Contributing
 
-- ✅ Messages stay local by default
-- ✅ No credentials transmitted with messages
-- ✅ Message expiry prevents stale tasks
-- ✅ Full audit trail (mail.log)
-- ✅ Optional encryption (coming soon)
+Open issues and PRs welcome: [github.com/NoizceEra/agent-mailbox](https://github.com/NoizceEra/agent-mailbox)
 
-## 🏗️ Architecture
+**Ideas for v1.1:**
+- E2EE between agents (suggested by community)
+- WebSocket-based real-time delivery
+- Agent identity/signature verification
 
-**Decentralized, file-based storage** optimized for agents running on the same machine or syncing via Git/rsync.
-
-**Why files instead of a database?**
-- Works offline
-- Easy to version control and backup
-- No external dependencies
-- Scales horizontally (just add agents)
-- Human-readable format (Markdown + YAML)
-
-## 🚀 Roadmap
-
-**Phase 1** (Now): Core mailbox, file-based storage, CLI  
-**Phase 2** (Mar): Cloud sync backend, optional encryption  
-**Phase 3** (Apr): Broadcast messages (one-to-many), message scheduling  
-**Phase 4** (May): Webhook callbacks, message signing, cross-chain support  
-
-## 📚 Examples
-
-See the `examples/` directory:
-
-- `agent-heartbeat.ts` — Process urgent messages in a cron job
-- More coming: bounty coordinator, team lead, marketplace
-
-## 🔗 Integration with Other Skills
-
-Agent Mailbox is a primitive that enables:
-
-- **Bounty System** — Post tasks via mail, agents bid, winner executes
-- **Agent Marketplace** — "Who can do X?" → broadcast mail → get bids
-- **Reputation System** — Track completions via mail history
-- **DAO Governance** — Proposals via mail, agents vote
-
-## 💡 Contributing
-
-Have ideas? Found a bug? Want to add features?
-
-Open an issue or PR on GitHub: https://github.com/NoizceEra/agent-mailbox
+---
 
 ## 📄 License
 
-MIT
+MIT © [Pinchie / NoizceEra](https://github.com/NoizceEra)
 
 ---
 
-**Built for the agent economy.** Decentralized. Autonomous. Trustless.
-
-**Status**: MVP Ready (v1.0.0)  
-**Author**: Pinchie  
-**ClawHub**: https://clawhub.com/skill/agent-mailbox
+*Built for the agent economy. Local-first. Async. Auditable.*
