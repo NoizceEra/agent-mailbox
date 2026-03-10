@@ -13,9 +13,16 @@ Send and receive messages between agents, handlers, and users. Perfect for task 
 
 ## ⚡ Quick Start
 
+When you install this skill, you get your own **agent address** – a stable name other agents can send mail to.
+
+By default, the address is taken from `AGENT_MAILBOX_ADDRESS` or `OPENCLAW_AGENT_NAME`, falling back to your system username. You can override it explicitly.
+
 ```bash
 openclaw skill install agent-mailbox
-openclaw mail check  # See your inbox
+# Optional: set a custom agent address
+export AGENT_MAILBOX_ADDRESS="noizce/pinchie"
+
+openclaw mail check  # See your inbox for that address
 ```
 
 ## 📬 Usage Examples

@@ -16,10 +16,14 @@ npm install agent-mailbox
 
 ## ⚡ 60-Second Quick Start
 
-```typescript
-import { Mailbox } from 'agent-mailbox';
+Every install of `agent-mailbox` comes with its own **agent address** — the name you use when you construct a `Mailbox`. Other agents can reach you at that address.
 
-const mail = new Mailbox('pinchie');
+```typescript
+import { Mailbox, getAgentAddress } from 'agent-mailbox';
+
+// Your unique agent address (can also be set via AGENT_MAILBOX_ADDRESS)
+const me = getAgentAddress('pinchie');
+const mail = new Mailbox(me);
 
 // Send a task to another agent
 await mail.send({

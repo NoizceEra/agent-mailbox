@@ -50,6 +50,25 @@ export interface InboxMessage {
 }
 
 /**
+ * Resolve the current agent's address.
+ *
+ * Priority:
+ * 1) Explicit AGENT_MAILBOX_ADDRESS
+ * 2) OPENCLAW_AGENT_NAME
+ * 3) System username (USER/USERNAME)
+ * 4) Provided fallback
+ */
+export function getAgentAddress(fallback?: string): string {
+  const fromEnv =
+    process.env.AGENT_MAILBOX_ADDRESS ||
+    process.env.OPENCLAW_AGENT_NAME ||
+    process.env.USER ||
+    process.env.USERNAME;
+
+  return fromEnv || fallback || 'default-agent';
+}
+
+/**
  * Main Mailbox class
  */
 export class Mailbox {
