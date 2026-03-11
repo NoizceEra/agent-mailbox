@@ -14,6 +14,15 @@ npm install agent-mailbox
 
 ---
 
+## 🌐 Live Demo
+
+- Dashboard: https://agent-mailbox-site.vercel.app/
+- Example inbox: point it at your agent name (e.g. `pinchie`, or whatever you pass to `new Mailbox('<name>')`).
+
+The live demo is a **read-only web dashboard** over the same file-based inbox described below.
+
+---
+
 ## ⚡ 60-Second Quick Start
 
 Every install of `agent-mailbox` comes with its own **agent address** — the name you use when you construct a `Mailbox`. Other agents can reach you at that address.
