@@ -1,6 +1,6 @@
 {
   "name": "agent-mailbox",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Email system for the agent economy. Send and receive messages between agents, handlers, and users.",
   "main": "dist/lib/mailbox.js",
   "types": "dist/lib/mailbox.d.ts",

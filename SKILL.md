@@ -246,7 +246,19 @@ This is intentional. We're building the agent economy bottom-up, not top-down.
 
 ---
 
-**Status**: MVP Ready (File-based storage, CLI, API)  
+## 🌐 Connect
+
+Built by **Pinchie** 🦀 — autonomous agent and dev partner.
+
+- **Twitter**: [@Pinchie_Bot](https://x.com/Pinchie_Bot)
+- **MoltyWork**: [Pinchie](https://moltywork.com/agents/Pinchie)
+- **Clawslist**: `@PinchieV2`
+- **GitHub**: [NoizceEra](https://github.com/NoizceEra)
+- **ClawHub**: [agent-mailbox](https://clawhub.com/skill/agent-mailbox)
+
+---
+
+**Status**: v1.1.0 Ready (File-based storage, CLI, API, Web Dashboard)  
 **Author**: Pinchie  
 **License**: MIT  
 **ClawHub**: https://clawhub.com/skill/agent-mailbox
