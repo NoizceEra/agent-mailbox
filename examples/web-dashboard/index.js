@@ -77,6 +77,23 @@ function listMessages(agentName) {
   );
 }
 
+app.get('/api/mailbox/:agent/stats', (req, res) => {
+  const agentName = req.params.agent;
+  try {
+    const messages = listMessages(agentName);
+    const now = new Date();
+    const stats = {
+      total: messages.length,
+      unread: messages.filter(m => m.status === 'unread').length,
+      urgent: messages.filter(m => m.priority === 'urgent' || m.priority === 'high').length,
+      expired: messages.filter(m => m.expires_at && new Date(m.expires_at) < now).length
+    };
+    res.json(stats);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get stats' });
+  }
+});
+
 app.get('/api/mailbox/:agent', (req, res) => {
   const agentName = req.params.agent;
   try {
@@ -132,6 +149,10 @@ app.get('/', (req, res) => {
           .badge.high { background: #ffe5b4; }
           .badge.urgent { background: #ffd6d6; }
           .badge.unread { background: #e0f2ff; }
+          .stats-bar { display: flex; gap: 20px; margin: 20px 0; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #eee; }
+          .stat-item { display: flex; flex-direction: column; }
+          .stat-value { font-size: 20px; font-weight: bold; color: #333; }
+          .stat-label { font-size: 12px; color: #666; text-transform: uppercase; }
           pre { white-space: pre-wrap; background: #fafafa; padding: 12px; border-radius: 4px; }
         </style>
       </head>
@@ -139,8 +160,21 @@ app.get('/', (req, res) => {
         <h1>Agent Mailbox Dashboard</h1>
         <p>Read-only view of messages stored on disk for a given agent.</p>
 
-        <label>Agent name: <input id="agent" value="pinchie" /></label>
-        <button onclick="loadMailbox()">Load</button>
+        <div style="margin-bottom: 20px;">
+          <label>Agent name: <input id="agent" value="pinchie" /></label>
+          <button onclick="loadMailbox()">Load / Refresh</button>
+          <select id="filter" onchange="loadMailbox()" style="margin-left: 10px; padding: 4px;">
+            <option value="all">All Messages</option>
+            <option value="unread">Unread Only</option>
+          </select>
+        </div>
+
+        <div id="stats" class="stats-bar" style="display:none">
+          <div class="stat-item"><span id="stat-total" class="stat-value">0</span><span class="stat-label">Total</span></div>
+          <div class="stat-item"><span id="stat-unread" class="stat-value">0</span><span class="stat-label">Unread</span></div>
+          <div class="stat-item"><span id="stat-urgent" class="stat-value">0</span><span class="stat-label">Urgent</span></div>
+          <div class="stat-item"><span id="stat-expired" class="stat-value">0</span><span class="stat-label">Expired</span></div>
+        </div>
 
         <div id="summary"></div>
         <div id="messages"></div>
@@ -149,14 +183,28 @@ app.get('/', (req, res) => {
         <script>
           async function loadMailbox() {
             const agent = document.getElementById('agent').value.trim();
+            const filter = document.getElementById('filter').value;
             if (!agent) return;
             document.getElementById('summary').innerText = 'Loading...';
-            document.getElementById('messages').innerHTML = '';
-            document.getElementById('detail').innerHTML = '';
             try {
+              // Load stats
+              const statsRes = await fetch('/api/mailbox/' + encodeURIComponent(agent) + '/stats');
+              const stats = await statsRes.json();
+              if (statsRes.ok) {
+                document.getElementById('stats').style.display = 'flex';
+                document.getElementById('stat-total').innerText = stats.total;
+                document.getElementById('stat-unread').innerText = stats.unread;
+                document.getElementById('stat-urgent').innerText = stats.urgent;
+                document.getElementById('stat-expired').innerText = stats.expired;
+              }
+
+              // Load messages
               const res = await fetch('/api/mailbox/' + encodeURIComponent(agent));
               const data = await res.json();
               if (res.ok) {
+                if (filter === 'unread') {
+                  data.messages = data.messages.filter(m => m.status === 'unread');
+                }
                 renderMailbox(data);
               } else {
                 document.getElementById('summary').innerText = 'Error: ' + (data.error || 'Unknown error');
