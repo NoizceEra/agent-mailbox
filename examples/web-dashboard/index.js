@@ -157,8 +157,18 @@ app.get('/', (req, res) => {
         </style>
       </head>
       <body>
-        <h1>Agent Mailbox Dashboard</h1>
-        <p>Read-only view of messages stored on disk for a given agent.</p>
+        <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <h1>Agent Mailbox Dashboard</h1>
+            <p>Read-only view of messages stored on disk for a given agent.</p>
+          </div>
+          <div style="text-align: right;">
+            <a href="https://x.com/Pinchie_Bot" target="_blank" style="display: inline-block; padding: 10px 20px; background: #333; color: white; border-radius: 12px; font-weight: bold; text-decoration: none; font-size: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
+              🚀 Get White-Label Setup
+            </a>
+            <p style="font-size: 10px; color: #999; margin-top: 4px;">Powered by Pinchie Agent Agency</p>
+          </div>
+        </div>
 
         <div style="margin-bottom: 20px;">
           <label>Agent name: <input id="agent" value="pinchie" /></label>
