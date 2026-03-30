@@ -1,0 +1,297 @@
+﻿[
+    {
+        "Category":  "Background",
+        "Name":  "Clearer",
+        "FileName":  "Clearer.png"
+    },
+    {
+        "Category":  "Background",
+        "Name":  "Clouds",
+        "FileName":  "Clouds.png"
+    },
+    {
+        "Category":  "Background",
+        "Name":  "Forests",
+        "FileName":  "Forests.png"
+    },
+    {
+        "Category":  "Background",
+        "Name":  "Fuscia",
+        "FileName":  "Fuscia.png"
+    },
+    {
+        "Category":  "Background",
+        "Name":  "Oceania",
+        "FileName":  "Oceania.png"
+    },
+    {
+        "Category":  "Background",
+        "Name":  "Skies",
+        "FileName":  "Skies.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Blue",
+        "FileName":  "Blue.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Brown",
+        "FileName":  "Brown.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Dark",
+        "FileName":  "Dark.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Green",
+        "FileName":  "Green.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Grey",
+        "FileName":  "Grey.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Pink",
+        "FileName":  "Pink.png"
+    },
+    {
+        "Category":  "Skin",
+        "Name":  "Untitled",
+        "FileName":  "Untitled.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Arctic Explorer",
+        "FileName":  "Arctic Explorer.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Bandito",
+        "FileName":  "Bandito.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Black Leather Jacket",
+        "FileName":  "Black Leather Jacket.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Blue Backpack",
+        "FileName":  "Blue Backpack.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Blue Hoodie",
+        "FileName":  "Blue Hoodie.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Blue Scarf",
+        "FileName":  "Blue Scarf.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Brorange Leather",
+        "FileName":  "Brorange Leather.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Brown Backpack",
+        "FileName":  "Brown Backpack.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Dark Explorer",
+        "FileName":  "Dark Explorer.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Dark Hoodie",
+        "FileName":  "Dark Hoodie.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Dark Scarf",
+        "FileName":  "Dark Scarf.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Dark Shirt",
+        "FileName":  "Dark Shirt.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Explorer",
+        "FileName":  "Explorer.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Green Hoodie",
+        "FileName":  "Green Hoodie.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Light Blue Scarf",
+        "FileName":  "Light Blue Scarf.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Light Blue Smiley",
+        "FileName":  "Light Blue Smiley.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "None",
+        "FileName":  "None.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Red Hoodie",
+        "FileName":  "Red Hoodie.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Royal Cape",
+        "FileName":  "Royal Cape.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Viking",
+        "FileName":  "Viking.png"
+    },
+    {
+        "Category":  "Clothes",
+        "Name":  "Yellow Smiley Shirt",
+        "FileName":  "Yellow Smiley Shirt.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Angry",
+        "FileName":  "Angry.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Cute",
+        "FileName":  "Cute.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Happy",
+        "FileName":  "Happy.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Sad",
+        "FileName":  "Sad.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Shades",
+        "FileName":  "Shades.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Smirk",
+        "FileName":  "Smirk.png"
+    },
+    {
+        "Category":  "Face",
+        "Name":  "Stud Muffin",
+        "FileName":  "Stud Muffin.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Backwards Blue",
+        "FileName":  "Backwards Blue.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Backwards Brown",
+        "FileName":  "Backwards Brown.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Bandana",
+        "FileName":  "Bandana.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Bandito",
+        "FileName":  "Bandito.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Beanie",
+        "FileName":  "Beanie.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Blue Hat",
+        "FileName":  "Blue Hat.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Corsair",
+        "FileName":  "Corsair.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Crown",
+        "FileName":  "Crown.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Dark Hat",
+        "FileName":  "Dark Hat.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Detective",
+        "FileName":  "Detective.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Eye Patch",
+        "FileName":  "Eye Patch.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Full Pirate",
+        "FileName":  "Full Pirate.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Greenish Hat",
+        "FileName":  "Greenish Hat.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Light Blue Beanie",
+        "FileName":  "Light Blue Beanie.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Light Blue",
+        "FileName":  "Light Blue.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "None",
+        "FileName":  "None.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Top Hat",
+        "FileName":  "Top Hat.png"
+    },
+    {
+        "Category":  "Hats",
+        "Name":  "Viking",
+        "FileName":  "Viking.png"
+    }
+]

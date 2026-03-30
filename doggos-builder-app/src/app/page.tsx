@@ -61,6 +61,39 @@ function DoggoPreview({ selected }: { selected: SelectedTraits }) {
   );
 }
 
+function TraitCard({ 
+  trait, 
+  isActive, 
+  onClick 
+}: { 
+  trait: Trait; 
+  isActive: boolean; 
+  onClick: () => void;
+}) {
+  const imagePath = `/traits/${trait.Category}/${encodeURIComponent(trait.FileName)}`;
+  
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${styles.traitCard} ${isActive ? styles.traitCardActive : ""}`}
+      title={trait.Name}
+    >
+      <div className={styles.traitImageWrapper}>
+        <Image
+          src={imagePath}
+          alt={trait.Name}
+          width={100}
+          height={100}
+          className={styles.traitImage}
+        />
+      </div>
+      <span className={styles.traitName}>{trait.Name}</span>
+      {isActive && <div className={styles.activeIndicator} />}
+    </button>
+  );
+}
+
 export default function Home() {
   const traits = traitsData as Trait[];
   const traitsByCategory = useMemo(
@@ -77,6 +110,8 @@ export default function Home() {
     }
     return initial;
   });
+
+  const [doggoName, setDoggoName] = useState("Cool Doggo #1");
 
   const handleSelect = (category: Category, trait: Trait) => {
     setSelected((prev) => ({ ...prev, [category]: trait }));
@@ -97,67 +132,114 @@ export default function Home() {
     });
   };
 
+  const handleDownload = () => {
+    const attributes = CATEGORIES.map(cat => ({
+      trait_type: cat,
+      value: selected[cat]?.Name || "None"
+    }));
+
+    const metadata = {
+      name: doggoName,
+      image: "ipfs://...",
+      attributes: attributes
+    };
+
+    const blob = new Blob([JSON.stringify(metadata, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `${doggoName.replace(/\s+/g, "-").toLowerCase()}-metadata.json`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>Doggos Builder</h1>
-      
+      {/* Header */}
+      <div className={styles.header}>
+        <h1 className={styles.title}>🐕 Doggos Builder</h1>
+        <p className={styles.subtitle}>Create your perfect doggo</p>
+      </div>
+
       <div className={styles.container}>
-        {/* Left: preview container */}
+        {/* Left: Preview Section */}
         <section className={styles.previewSection}>
-          <DoggoPreview selected={selected} />
+          <div className={styles.nameInputWrapper}>
+            <label className={styles.nameLabel} htmlFor="doggo-name">Inscribe Name</label>
+            <input
+              id="doggo-name"
+              type="text"
+              value={doggoName}
+              onChange={(e) => setDoggoName(e.target.value)}
+              className={styles.nameInput}
+              placeholder="Enter name..."
+            />
+          </div>
+
+          <div className={styles.previewBox}>
+            <DoggoPreview selected={selected} />
+          </div>
           
-          <button
-            type="button"
-            onClick={handleRandom}
-            className={styles.randomButton}
-          >
-            Randomize Doggo
-          </button>
-          
-          <p className={styles.layerInfo}>
-            Render Order: Background → Skin → Clothes → Face → Hats
-          </p>
+          <div className={styles.buttonGroup}>
+            <button
+              type="button"
+              onClick={handleRandom}
+              className={styles.primaryButton}
+            >
+              🎲 Randomize
+            </button>
+            <button
+              type="button"
+              onClick={handleDownload}
+              className={styles.secondaryButton}
+            >
+              ⬇️ Get Metadata
+            </button>
+          </div>
         </section>
 
-        {/* Right: trait selection blocks */}
-        <section className={styles.controlsSection}>
-          {CATEGORIES.map((category) => {
-            const list = traitsByCategory[category] || [];
-            return (
-              <div
-                key={category}
-                className={styles.categoryCard}
-              >
-                <div className={styles.categoryHeader}>
-                  <h2 className={styles.categoryTitle}>{category}</h2>
-                  <span className={styles.categorySelected}>
-                    {selected[category]?.Name ?? "None"}
-                  </span>
+        {/* Right: Trait Selection */}
+        <section className={styles.selectionSection}>
+          <div className={styles.traitsContainer}>
+            {CATEGORIES.map((category) => {
+              const list = traitsByCategory[category] || [];
+              const selected_trait = selected[category];
+              
+              return (
+                <div
+                  key={category}
+                  className={styles.categorySection}
+                >
+                  <div className={styles.categoryLabel}>
+                    <h2>{category}</h2>
+                    {selected_trait && (
+                      <span className={styles.selectedBadge}>
+                        {selected_trait.Name}
+                      </span>
+                    )}
+                  </div>
+                  
+                  <div className={styles.traitGrid}>
+                    {list.map((trait) => {
+                      const isActive = selected[category]?.Name === trait.Name;
+                      return (
+                        <TraitCard
+                          key={trait.Name}
+                          trait={trait}
+                          isActive={isActive}
+                          onClick={() => handleSelect(category, trait)}
+                        />
+                      );
+                    })}
+                  </div>
                 </div>
-                
-                <div className={styles.traitsGrid}>
-                  {list.map((trait) => {
-                    const isActive = selected[category]?.Name === trait.Name;
-                    return (
-                      <button
-                        key={trait.Name}
-                        type="button"
-                        onClick={() => handleSelect(category, trait)}
-                        className={`${styles.traitButton} ${
-                          isActive ? styles.traitActive : ""
-                        }`}
-                      >
-                        {trait.Name}
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </section>
       </div>
     </main>
   );
 }
-
