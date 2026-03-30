@@ -1,0 +1,35 @@
+:root {
+  --background: #0f111a;
+  --foreground: #eef2ff;
+  --primary: #6366f1;
+  --primary-hover: #818cf8;
+  --glass-bg: rgba(15, 23, 42, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --accent: #10b981;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  font-family: var(--font-outfit), sans-serif;
+  color: var(--foreground);
+  background: var(--background);
+  background-image: 
+    radial-gradient(ellipse at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(16, 185, 129, 0.15) 0%, transparent 50%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
